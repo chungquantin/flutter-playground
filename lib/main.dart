@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:faker/faker.dart';
 import 'package:provider/provider.dart';
+import 'package:tutorials/screen/game_screen.dart';
 import 'package:tutorials/screen/home_screen.dart';
 
 void main() {
@@ -22,8 +23,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           home: MyHomePage(),
+          routes: {"/games": (context) => GameScreen()},
         ));
   }
 }
-
-

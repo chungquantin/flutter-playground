@@ -1,12 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:tutorials/screen/game_screen.dart';
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return MyHomePageState();
+  }
+}
+
+class MyHomePageState extends State<MyHomePage> {
+  int _selectedIndex = 0;
+
+  Widget getBody() {
+    switch (_selectedIndex) {
+      case 0:
+        return MyHomePage();
+      case 1:
+        return GameScreen();
+      default:
+        return MyHomePage();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.white,
-          // currentIndex: 0,
+          currentIndex: _selectedIndex,
+          onTap: (int index) {
+            setState(() {
+              this._selectedIndex = index;
+            });
+          },
           items: [
             BottomNavigationBarItem(
                 icon: Icon(
@@ -30,40 +58,52 @@ class MyHomePage extends StatelessWidget {
                 )),
           ],
         ),
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-                child: Image(
-                  image: NetworkImage(
-                      "https://icons-for-free.com/iconfiles/png/512/go+pikachu+play+pokemon+icon-1320186973527720987.png"),
-                  height: 100,
-                ),
-              ),
-              Container(
-                alignment: Alignment.center,
-                child: Text("PokeStan",
-                    style:
-                        TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold)),
-              ),
-              Container(
-                padding: EdgeInsets.all(20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "All Pokemon",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 17),
-                    ),
-                    Spacer(),
-                  ],
-                ),
-              )
-            ],
+        body: this.getBody());
+  }
+}
+
+void customPageTransition(BuildContext context, dynamic page) {
+  Navigator.of(context).push(
+      PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) {
+    return page;
+  }));
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+            child: Image(
+              image: NetworkImage(
+                  "https://icons-for-free.com/iconfiles/png/512/go+pikachu+play+pokemon+icon-1320186973527720987.png"),
+              height: 100,
+            ),
           ),
-        ));
+          Container(
+            alignment: Alignment.center,
+            child: Text("PokeStan",
+                style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold)),
+          ),
+          Container(
+            padding: EdgeInsets.all(20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "All Pokemon",
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17),
+                ),
+                Spacer(),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
